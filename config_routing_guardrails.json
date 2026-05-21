@@ -1,0 +1,67 @@
+{
+  "memory_backend": "markdown",
+  "email": "ben.poersch@gmail.com",
+  "llm_provider": "hybrid",
+  "blueprint": "lead-gen-agency",
+  "team_lead_slug": "orchestrator",
+  "max_concurrent_agents": 4,
+  "default_format": "text",
+  "default_timeout": 120000,
+  "owner_name": "Benjamin Poersch",
+  "owner_role": "Founder",
+  "company_name": "Autonomous Pitch Deck Agency",
+  "company_description": "Hybrid Cloud-Orchestrator + Local Executors für professionelle Investoren-Pitchdecks",
+  "company_goals": "10 Kunden in 90 Tagen, €25K MRR, Marktführerschaft im DACH-Bereich",
+  "company_website": "https://agent-company-production-9243.up.railway.app/",
+  "orchestrator_agent": "orchestrator",
+  "routing_guardrails": {
+    "enforce_local_only_for_workers": true,
+    "allowed_local_models": ["glm-4.7-flash:latest", "qwen2.5:7b", "llama3.2:latest"],
+    "orchestrator_cloud_access": true,
+    "worker_cloud_access": false
+  },
+  "provider_endpoints": {
+    "openrouter": {
+      "base_url": "https://openrouter.ai/api/v1",
+      "model": "deepseek/deepseek-v4-flash:free",
+      "fallback_enabled": true,
+      "fallback_cascade": [
+        {
+          "priority": 1,
+          "model": "deepseek/deepseek-v4-flash:free",
+          "reason": "Spezialisiert für Agent Workflows, 284B Parameter, 1M context",
+          "cost": "Free",
+          "use_case": "Strategische Planung, komplexe Entscheidungen"
+        },
+        {
+          "priority": 2,
+          "model": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+          "reason": "30B multimodal mit reasoning capabilities, 300K context",
+          "cost": "Free",
+          "use_case": "Fallback bei Ausfall oder Rate Limits"
+        },
+        {
+          "priority": 3,
+          "model": "minimax/minimax-m2.7",
+          "reason": "Höchste Qualität, zuverlässigster Fallback",
+          "cost": "$0.15/M input, $1.25/M output",
+          "use_case": "Letzter Fallback bei kritischen Aufgaben"
+        }
+      ],
+      "models_by_agent": {
+        "orchestrator": "deepseek/deepseek-v4-flash:free"
+      }
+    },
+    "ollama": {
+      "base_url": "http://localhost:11434",
+      "model": "glm-4.7-flash:latest",
+      "models_by_agent": {
+        "ceo": "glm-4.7-flash:latest",
+        "sdr": "qwen2.5:7b",
+        "research": "qwen2.5:7b",
+        "content": "llama3.2:latest",
+        "analyst": "glm-4.7-flash:latest"
+      }
+    }
+  }
+}
