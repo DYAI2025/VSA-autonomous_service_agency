@@ -10,6 +10,23 @@ import { RiBrainLine, RiRefreshLine, RiFilter3Line, RiSearchLine } from '@remixi
 dagre(cytoscape);
 fcose(cytoscape);
 
+// Custom hook outside component (React best practice)
+function useDebounce(value: string, delay: number) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+    
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+  
+  return debouncedValue;
+}
+
 interface GraphNode {
   id: string;
   label: string;
@@ -30,7 +47,7 @@ interface GraphData {
   edges: GraphEdge[];
 }
 
-const API_BASE_URL = 'http://localhost:8001';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8001';
 
 export default function GBrainSemanticGraph() {
   const [graphData, setGraphData] = useState<GraphData>({ nodes: [], edges: [] });
@@ -42,24 +59,6 @@ export default function GBrainSemanticGraph() {
   const [searchQuery, setSearchQuery] = useState('');
   
   const cyRef = useRef<any>(null);
-
-  // Debounce hook
-  const useDebounce = (value: string, delay: number) => {
-    const [debouncedValue, setDebouncedValue] = useState(value);
-    
-    useEffect(() => {
-      const handler = setTimeout(() => {
-        setDebouncedValue(value);
-      }, delay);
-      
-      return () => {
-        clearTimeout(handler);
-      };
-    }, [value, delay]);
-    
-    return debouncedValue;
-  };
-
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
   // Filter graph data based on search query
@@ -85,11 +84,7 @@ export default function GBrainSemanticGraph() {
     };
   }, [graphData, debouncedSearchQuery]);
 
-  useEffect(() => {
-    loadGraphData();
-  }, [selectedSources, similarityThreshold, maxNodes]);
-
-  const loadGraphData = async () => {
+  const loadGraphData = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -108,7 +103,11 @@ export default function GBrainSemanticGraph() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedSources, similarityThreshold, maxNodes]);
+
+  useEffect(() => {
+    loadGraphData();
+  }, [loadGraphData]);
 
   const getSourceColor = (source: string) => {
     switch (source) {
@@ -258,10 +257,12 @@ export default function GBrainSemanticGraph() {
 
       {/* Graph Visualization */}
       <div className="h-[600px] border border-border rounded-lg bg-surface-light">
-        {filteredGraphData().nodes.length > 0 ? (
+        {(() => {
+          const filtered = filteredGraphData();
+          return filtered.nodes.length > 0 ? (
           <CytoscapeComponent
             elements={[
-              ...filteredGraphData().nodes.map(node => ({
+              ...filtered.nodes.map(node => ({
                 data: { 
                   id: node.id, 
                   label: node.label, 
@@ -269,7 +270,7 @@ export default function GBrainSemanticGraph() {
                   sourceColor: getSourceColor(node.source)
                 }
               })),
-              ...filteredGraphData().edges.map((edge, index) => ({
+              ...filtered.edges.map((edge, index) => ({
                 data: { 
                   source: edge.source, 
                   target: edge.target, 
@@ -322,7 +323,7 @@ export default function GBrainSemanticGraph() {
               cy.boxSelectionEnabled(false);
             }}
           />
-        ) : (
+          ) : (
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
               <RiBrainLine className="w-16 h-16 text-text-muted mx-auto mb-4" />
@@ -339,7 +340,8 @@ export default function GBrainSemanticGraph() {
               )}
             </div>
           </div>
-        )}
+        );
+        })()}
       </div>
     </div>
   );
