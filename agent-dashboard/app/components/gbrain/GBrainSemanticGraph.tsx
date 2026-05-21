@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
 import cytoscape from 'cytoscape';
 import dagre from 'cytoscape-dagre';
 import fcose from 'cytoscape-fcose';
-import { RiBrainLine, RiRefreshLine, RiFilter3Line } from '@remixicon/react';
+import { RiBrainLine, RiRefreshLine, RiFilter3Line, RiSearchLine } from '@remixicon/react';
 
 dagre(cytoscape);
 fcose(cytoscape);
@@ -39,8 +39,51 @@ export default function GBrainSemanticGraph() {
   const [selectedSources, setSelectedSources] = useState<string[]>(['default', 'wuphf-memory', 'wuphf-wiki']);
   const [similarityThreshold, setSimilarityThreshold] = useState(0.7);
   const [maxNodes, setMaxNodes] = useState(100);
+  const [searchQuery, setSearchQuery] = useState('');
   
   const cyRef = useRef<any>(null);
+
+  // Debounce hook
+  const useDebounce = (value: string, delay: number) => {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+    
+    useEffect(() => {
+      const handler = setTimeout(() => {
+        setDebouncedValue(value);
+      }, delay);
+      
+      return () => {
+        clearTimeout(handler);
+      };
+    }, [value, delay]);
+    
+    return debouncedValue;
+  };
+
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
+  // Filter graph data based on search query
+  const filteredGraphData = useCallback(() => {
+    if (!debouncedSearchQuery) {
+      return graphData;
+    }
+    
+    const query = debouncedSearchQuery.toLowerCase();
+    const filteredNodeIds = new Set(
+      graphData.nodes
+        .filter(node => node.label.toLowerCase().includes(query))
+        .map(node => node.id)
+    );
+    
+    const filteredEdges = graphData.edges.filter(
+      edge => filteredNodeIds.has(edge.source) || filteredNodeIds.has(edge.target)
+    );
+    
+    return {
+      nodes: graphData.nodes.filter(node => filteredNodeIds.has(node.id)),
+      edges: filteredEdges
+    };
+  }, [graphData, debouncedSearchQuery]);
 
   useEffect(() => {
     loadGraphData();
@@ -126,13 +169,25 @@ export default function GBrainSemanticGraph() {
             </p>
           </div>
         </div>
-        <button
-          onClick={loadGraphData}
-          className="px-4 py-2 bg-surface border border-border rounded-lg hover:border-primary transition-colors flex items-center gap-2"
-        >
-          <RiRefreshLine className="w-4 h-4" />
-          Refresh
-        </button>
+        <div className="flex items-center gap-2">
+          <div className="relative">
+            <RiSearchLine className="w-4 h-4 text-text-muted absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              placeholder="Search nodes..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9 pr-4 py-2 bg-surface border border-border rounded-lg text-sm focus:outline-none focus:border-primary w-64"
+            />
+          </div>
+          <button
+            onClick={loadGraphData}
+            className="px-4 py-2 bg-surface border border-border rounded-lg hover:border-primary transition-colors flex items-center gap-2"
+          >
+            <RiRefreshLine className="w-4 h-4" />
+            Refresh
+          </button>
+        </div>
       </div>
 
       {/* Controls */}
@@ -203,10 +258,10 @@ export default function GBrainSemanticGraph() {
 
       {/* Graph Visualization */}
       <div className="h-[600px] border border-border rounded-lg bg-surface-light">
-        {graphData.nodes.length > 0 ? (
+        {filteredGraphData().nodes.length > 0 ? (
           <CytoscapeComponent
             elements={[
-              ...graphData.nodes.map(node => ({
+              ...filteredGraphData().nodes.map(node => ({
                 data: { 
                   id: node.id, 
                   label: node.label, 
@@ -214,7 +269,7 @@ export default function GBrainSemanticGraph() {
                   sourceColor: getSourceColor(node.source)
                 }
               })),
-              ...graphData.edges.map((edge, index) => ({
+              ...filteredGraphData().edges.map((edge, index) => ({
                 data: { 
                   source: edge.source, 
                   target: edge.target, 
@@ -271,8 +326,17 @@ export default function GBrainSemanticGraph() {
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
               <RiBrainLine className="w-16 h-16 text-text-muted mx-auto mb-4" />
-              <p className="text-text-muted">No graph data available</p>
-              <p className="text-text-muted text-sm mt-2">Try adjusting filters or refresh</p>
+              {debouncedSearchQuery ? (
+                <>
+                  <p className="text-text-muted">No matching nodes found</p>
+                  <p className="text-text-muted text-sm mt-2">Try a different search term</p>
+                </>
+              ) : (
+                <>
+                  <p className="text-text-muted">No graph data available</p>
+                  <p className="text-text-muted text-sm mt-2">Try adjusting filters or refresh</p>
+                </>
+              )}
             </div>
           </div>
         )}
