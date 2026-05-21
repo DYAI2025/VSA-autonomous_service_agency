@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bazodiac - Seed Round 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Primary Colors - Cosmic Authority */
+            --deep-space: #0A0E27;
+            --stellar-blue: #1B3A5B;
+            --nebula-purple: #2D1B4E;
+            --cosmic-void: #050814;
+
+            /* Accent Colors - Mathematical Precision */
+            --cyan-light: #00D4FF;
+            --cyan-glow: rgba(0, 212, 255, 0.6);
+            --quantum-gold: #FFD700;
+            --gold-glow: rgba(255, 215, 0, 0.4);
+            --fusion-orange: #FF6B35;
+            --fusion-glow: rgba(255, 107, 53, 0.5);
+
+            /* Neutral Colors - Technical Foundation */
+            --void-black: #000000;
+            --starlight-white: #FFFFFF;
+            --cosmic-gray: #8B9BB4;
+            --haze-gray: #D1D5DB;
+            --glass-white: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+
+            /* Semantic Color Coding */
+            --western-astro: #3B82F6;
+            --western-glow: rgba(59, 130, 246, 0.4);
+            --chinese-bazi: #EF4444;
+            --chinese-glow: rgba(239, 68, 68, 0.4);
+            --wu-xing: #10B981;
+            --wu-xing-glow: rgba(16, 185, 129, 0.4);
+            --fusion-core: #8B5CF6;
+            --fusion-core-glow: rgba(139, 92, 246, 0.4);
+
+            /* Animation Timing */
+            --ease-premium: cubic-bezier(0.23, 1, 0.32, 1);
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--cosmic-void);
+            color: var(--starlight-white);
+            overflow-x: hidden;
+            line-height: 1.7;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--cosmic-void);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.8s var(--ease-premium), visibility 0.8s;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-ring {
+            width: 80px;
+            height: 80px;
+            border: 3px solid transparent;
+            border-top-color: var(--cyan-light);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-ring::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            border: 3px solid transparent;
+            border-top-color: var(--fusion-core);
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite reverse;
+        }
+
+        .loading-text {
+            margin-top: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--cosmic-gray);
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Particle Background */
+        .particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Slide Base */
+        .slide {
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 60px;
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 215, 0, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .slide::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(10, 14, 39, 0.3) 100%);
+            pointer-events: none;
+        }
+
+        /* Title Slide */
+        .title-slide {
+            background: 
+                linear-gradient(135deg, var(--cosmic-void) 0%, var(--deep-space) 50%, var(--nebula-purple) 100%);
+        }
+
+        /* Premium Fusion Ring - SVG Based */
+        .fusion-ring-container {
+            width: 350px;
+            height: 350px;
+            margin: 0 auto 50px;
+            position: relative;
+        }
+
+        .fusion-ring-svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 30px var(--cyan-glow));
+        }
+
+        .fusion-ring-svg .outer-ring {
+            animation: rotate 25s linear infinite;
+            transform-origin: center;
+        }
+
+        .fusion-ring-svg .middle-ring {
+            animation: rotate 18s linear infinite reverse;
+            transform-origin: center;
+        }
+
+        .fusion-ring-svg .inner-ring {
+            animation: rotate 12s linear infinite;
+            transform-origin: center;
+        }
+
+        .fusion-ring-svg .particle {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Premium Typography */
+        h1 {
+            font-size: 88px;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 0.95;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, var(--cyan-light) 0%, var(--quantum-gold) 50%, var(--fusion-core) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 60px var(--cyan-glow);
+            position: relative;
+        }
+
+        h1::after {
+            content: 'BAZODIAC';
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: linear-gradient(135deg, var(--cyan-light) 0%, var(--quantum-gold) 50%, var(--fusion-core) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: blur(40px);
+            opacity: 0.4;
+            z-index: -1;
+        }
+
+        .subtitle {
+            font-size: 26px;
+            font-weight: 400;
+            color: var(--cosmic-gray);
+            margin-bottom: 32px;
+            max-width: 700px;
+            line-height: 1.6;
+            letter-spacing: -0.01em;
+        }
+
+        .tagline {
+            font-size: 22px;
+            font-weight: 300;
+            font-style: italic;
+            color: var(--cyan-light);
+            margin-bottom: 48px;
+            font-family: 'Georgia', serif;
+            letter-spacing: 0.02em;
+            opacity: 0.9;
+        }
+
+        .round-info {
+            font-size: 15px;
+            color: var(--quantum-gold);
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 12px 28px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Section Headers */
+        .section-header {
+            font-size: 56px;
+            font-weight: 700;
+            color: var(--cyan-light);
+            margin-bottom: 50px;
+            text-align: center;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            text-shadow: 0 0 40px var(--cyan-glow);
+        }
+
+        /* Glass Card Base */
+        .glass-card {
+            background: var(--glass-white);
+            border-radius: 24px;
+            padding: 40px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.4s var(--ease-premium);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: left 0.6s var(--ease-premium);
+        }
+
+        .glass-card:hover::before {
+            left: 100%;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Problem Slide */
+        .problem-slide {
+            background: linear-gradient(135deg, var(--cosmic-void) 0%, var(--deep-space) 50%, var(--stellar-blue) 100%);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1200px;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .comparison-card.bad {
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+
+        .comparison-card.bad:hover {
+            border-color: rgba(239, 68, 68, 0.4);
+            box-shadow: 0 20px 60px rgba(239, 68, 68, 0.15);
+        }
+
+        .comparison-card.good {
+            border-color: rgba(16, 185, 129, 0.2);
+            box-shadow: 0 0 50px rgba(0, 212, 255, 0.1);
+        }
+
+        .comparison-card.good:hover {
+            border-color: rgba(16, 185, 129, 0.4);
+            box-shadow: 0 20px 60px rgba(16, 185, 129, 0.2);
+        }
+
+        .card-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            letter-spacing: -0.02em;
+        }
+
+        .card-title.bad { color: var(--chinese-bazi); }
+        .card-title.good { color: var(--wu-xing); }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 17px;
+            color: var(--cosmic-gray);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            line-height: 1.5;
+            transition: all 0.3s ease;
+        }
+
+        .feature-list li:hover {
+            color: var(--starlight-white);
+            padding-left: 8px;
+        }
+
+        .feature-list li::before {
+            content: '×';
+            color: var(--chinese-bazi);
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .good .feature-list li::before {
+            content: '✓';
+            color: var(--wu-xing);
+        }
+
+        /* FuFirE Engine Slide */
+        .fufire-slide {
+            background: linear-gradient(135deg, var(--cosmic-void) 0%, var(--deep-space) 50%, var(--nebula-purple) 100%);
+        }
+
+        .formula-container {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 28px;
+            padding: 70px;
+            margin: 40px 0;
+            text-align: center;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            box-shadow: 
+                0 0 80px rgba(0, 212, 255, 0.15),
+                inset 0 0 60px rgba(0, 212, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .formula-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(0, 212, 255, 0.03), transparent);
+            animation: rotate 30s linear infinite;
+        }
+
+        .formula {
+            font-family: 'Space Mono', monospace;
+            font-size: 36px;
+            color: var(--starlight-white);
+            margin-bottom: 50px;
+            line-height: 1.5;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .formula .western { 
+            color: var(--western-astro); 
+            text-shadow: 0 0 20px var(--western-glow);
+        }
+        .formula .chinese { 
+            color: var(--chinese-bazi); 
+            text-shadow: 0 0 20px var(--chinese-glow);
+        }
+        .formula .wuxing { 
+            color: var(--wu-xing); 
+            text-shadow: 0 0 20px var(--wu-xing-glow);
+        }
+
+        .formula-breakdown {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .breakdown-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            transition: all 0.4s var(--ease-premium);
+        }
+
+        .breakdown-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .breakdown-item h4 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .breakdown-item.western h4 { color: var(--western-astro); }
+        .breakdown-item.chinese h4 { color: var(--chinese-bazi); }
+        .breakdown-item.wuxing h4 { color: var(--wu-xing); }
+
+        .breakdown-item p {
+            font-size: 15px;
+            color: var(--cosmic-gray);
+            line-height: 1.6;
+        }
+
+        /* Coherence Index Gauge */
+        .coherence-gauge {
+            width: 200px;
+            height: 100px;
+            margin: 40px auto;
+            position: relative;
+        }
+
+        .coherence-gauge svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .gauge-arc {
+            fill: none;
+            stroke-width: 12;
+            stroke-linecap: round;
+        }
+
+        .gauge-bg {
+            stroke: rgba(255, 255, 255, 0.1);
+        }
+
+        .gauge-fill {
+            stroke: url(#gaugeGradient);
+            stroke-dasharray: 283;
+            stroke-dashoffset: 70;
+            animation: gaugeFill 2s var(--ease-premium) forwards;
+        }
+
+        @keyframes gaugeFill {
+            from { stroke-dashoffset: 283; }
+            to { stroke-dashoffset: 70; }
+        }
+
+        .gauge-value {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Space Mono', monospace;
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--cyan-light);
+        }
+
+        .gauge-label {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: var(--cosmic-gray);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Market Slide */
+        .market-slide {
+            background: linear-gradient(135deg, var(--cosmic-void) 0%, var(--deep-space) 50%, var(--stellar-blue) 100%);
+        }
+
+        .market-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            text-align: center;
+            border: 1px solid var(--glass-border);
+        }
+
+        .stat-card:hover {
+            border-color: var(--cyan-light);
+        }
+
+        .stat-value {
+            font-size: 64px;
+            font-weight: 800;
+            color: var(--cyan-light);
+            margin-bottom: 12px;
+            letter-spacing: -0.03em;
+            text-shadow: 0 0 30px var(--cyan-glow);
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: var(--cosmic-gray);
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .blue-ocean {
+            background: 
+                linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border-radius: 24px;
+            padding: 50px;
+            margin-top: 50px;
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            max-width: 1000px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blue-ocean::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .blue-ocean h3 {
+            font-size: 32px;
+            color: var(--fusion-core);
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .blue-ocean p {
+            font-size: 20px;
+            color: var(--starlight-white);
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Personas Slide */
+        .personas-slide {
+            background: linear-gradient(135deg, var(--cosmic-void) 0%, var(--deep-space) 50%, var(--nebula-purple) 100%);
+        }
+
+        .personas-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 35px;
+            max-width: 1200px;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .persona-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .persona-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--cyan-light), var(--fusion-core), var(--quantum-gold));
+            opacity: 0;
+            transition: opacity 0.4s var(--ease-premium);
+        }
+
+        .persona-card:hover::before {
+            opacity: 1;
+        }
+
+        .persona-card:hover {
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.2);
+        }
+
+        .persona-header {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 28px;
+        }
+
+        .persona-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--cyan-light) 0%, var(--fusion-core) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--void-black);
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .persona-avatar::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .persona-info h3 {
+            font-size: 26px;
+            color: var(--starlight-white);
+            margin-bottom: 6px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .persona-info p {
+            font-size: 15px;
+            color: var(--cosmic-gray);
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .persona-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .detail-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 18px;
+            border-radius: 14px;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .detail-item:hover {
+            background: rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .detail-label {
+            font-size: 11px;
+            color: var(--cosmic-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .detail-value {
+            font-size: 17px;
+            color: var(--cyan-light);
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        /* Business Model Slide */
+        .business-slide {
+            background: linear-gradient(135deg, var(--cosmic-void) 0%, var(--deep-space) 50%, var(--stellar-blue) 100%);
+        }
+
+        .pricing-tiers {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 45px;
+            max-width: 1100px;
+            width: 100%;
+            margin: 40px 0;
+        }
+
+        .pricing-card {
+            position: relative;
+        }
+
+        .pricing-card.premium {
+            border: 2px solid rgba(0, 212, 255, 0.4);
+            box-shadow: 0 0 60px rgba(0, 212, 255, 0.2);
+        }
+
+        .pricing-card.premium::before {
+            content: 'RECOMMENDED';
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--cyan-light), var(--fusion-core));
+            color: var(--void-black);
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .tier-name {
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .tier-price {
+            font-size: 52px;
+            font-weight: 800;
+            color: var(--cyan-light);
+            margin-bottom: 35px;
+            letter-spacing: -0.03em;
+            text-shadow: 0 0 30px var(--cyan-glow);
+        }
+
+        .tier-price span {
+            font-size: 18px;
+            color: var(--cosmic-gray);
+            font-weight: 500;
+        }
+
+        .validation-tag {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--wu-xing);
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            display: inline-block;
+        }
+
+        /* Risk Slide */
+        .risk-slide {
+            background: linear-gradient(135deg, var(--cosmic-void) 0%, var(--deep-space) 50%, var(--nebula-purple) 100%);
+        }
+
+        .risk-container {
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        .risk-card {
+            background: rgba(239, 68, 68, 0.08);
+            border: 2px solid rgba(239, 68, 68, 0.25);
+            border-radius: 24px;
+            padding: 50px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .risk-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--chinese-bazi), var(--fusion-orange));
+        }
+
+        .risk-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .risk-icon {
+            font-size: 40px;
+        }
+
+        .risk-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--chinese-bazi);
+            letter-spacing: -0.02em;
+        }
+
+        .defense-list {
+            list-style: none;
+            margin: 28px 0;
+        }
+
+        .defense-list li {
+            padding: 16px 0;
+            padding-left: 40px;
+            position: relative;
+            font-size: 17px;
+            color: var(--cosmic-gray);
+            line-height: 1.6;
+        }
+
+        .defense-list li::before {
+            content: '🛡️';
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+        }
+
+        .kill-criteria {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 18px;
+            padding: 30px;
+            margin-top: 28px;
+            border-left: 4px solid var(--fusion-orange);
+        }
+
+        .kill-criteria h4 {
+            font-size: 18px;
+            color: var(--fusion-orange);
+            margin-bottom: 20px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .kill-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .kill-metric {
+            text-align: center;
+            background: rgba(255, 107, 53, 0.1);
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+        }
+
+        .kill-metric .metric {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--starlight-white);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .kill-metric .label {
+            font-size: 13px;
+            color: var(--cosmic-gray);
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Contact Slide */
+        .contact-slide {
+            background: linear-gradient(135deg, var(--cosmic-void) 0%, var(--deep-space) 50%, var(--stellar-blue) 100%);
+            text-align: center;
+        }
+
+        .contact-content {
+            max-width: 800px;
+        }
+
+        .contact-title {
+            font-size: 56px;
+            font-weight: 800;
+            color: var(--cyan-light);
+            margin-bottom: 28px;
+            letter-spacing: -0.03em;
+            text-shadow: 0 0 40px var(--cyan-glow);
+        }
+
+        .contact-tagline {
+            font-size: 24px;
+            color: var(--cosmic-gray);
+            margin-bottom: 60px;
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .contact-item {
+            padding: 30px;
+            border-radius: 18px;
+            border: 1px solid var(--glass-border);
+            transition: all 0.4s var(--ease-premium);
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--cyan-light);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .contact-item h4 {
+            font-size: 12px;
+            color: var(--cosmic-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .contact-item p {
+            font-size: 18px;
+            color: var(--starlight-white);
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        /* Navigation */
+        .nav-dots {
+            position: fixed;
+            right: 35px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            z-index: 1000;
+        }
+
+        .nav-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.4s var(--ease-premium);
+            border: 2px solid transparent;
+        }
+
+        .nav-dot:hover {
+            background: rgba(0, 212, 255, 0.4);
+            transform: scale(1.2);
+        }
+
+        .nav-dot.active {
+            background: var(--cyan-light);
+            transform: scale(1.3);
+            box-shadow: 0 0 20px var(--cyan-glow);
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.9s var(--ease-premium) forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .delay-1 { animation-delay: 0.15s; }
+        .delay-2 { animation-delay: 0.3s; }
+        .delay-3 { animation-delay: 0.45s; }
+        .delay-4 { animation-delay: 0.6s; }
+
+        /* Slide Progress Indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--cyan-light), var(--fusion-core), var(--quantum-gold));
+            z-index: 10000;
+            transition: width 0.3s var(--ease-smooth);
+            box-shadow: 0 0 20px var(--cyan-glow);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            h1 { font-size: 64px; }
+            .section-header { font-size: 42px; }
+            .comparison-grid, .formula-breakdown, .market-stats, 
+            .personas-grid, .pricing-tiers, .contact-info {
+                grid-template-columns: 1fr;
+            }
+            .fusion-ring-container { width: 280px; height: 280px; }
+        }
+
+        @media (max-width: 768px) {
+            .slide { padding: 40px 30px; }
+            h1 { font-size: 48px; }
+            .section-header { font-size: 36px; }
+            .nav-dots { display: none; }
+            .formula { font-size: 24px; }
+            .tier-price { font-size: 40px; }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--cosmic-void);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--stellar-blue);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--cyan-light);
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-ring"></div>
+        <div class="loading-text">Initializing Fusion Engine</div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+
+    <!-- Particle Background Canvas -->
+    <canvas class="particle-canvas" id="particleCanvas"></canvas>
+
+    <!-- Navigation Dots -->
+    <div class="nav-dots">
+        <div class="nav-dot active" onclick="goToSlide(0)"></div>
+        <div class="nav-dot" onclick="goToSlide(1)"></div>
+        <div class="nav-dot" onclick="goToSlide(2)"></div>
+        <div class="nav-dot" onclick="goToSlide(3)"></div>
+        <div class="nav-dot" onclick="goToSlide(4)"></div>
+        <div class="nav-dot" onclick="goToSlide(5)"></div>
+        <div class="nav-dot" onclick="goToSlide(6)"></div>
+        <div class="nav-dot" onclick="goToSlide(7)"></div>
+    </div>
+
+    <!-- Slide 1: Title -->
+    <div class="slide title-slide" id="slide-0">
+        <div class="fusion-ring-container">
+            <svg class="fusion-ring-svg" viewBox="0 0 200 200">
+                <defs>
+                    <linearGradient id="cyanGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#00D4FF;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#FF6B35;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <!-- Outer Ring -->
+                <circle class="outer-ring" cx="100" cy="100" r="90" fill="none" stroke="url(#cyanGradient)" stroke-width="2" opacity="0.8"/>
+                <circle class="outer-ring" cx="100" cy="100" r="85" fill="none" stroke="url(#cyanGradient)" stroke-width="1" opacity="0.4" stroke-dasharray="10 5"/>
+                <!-- Middle Ring -->
+                <circle class="middle-ring" cx="100" cy="100" r="70" fill="none" stroke="url(#goldGradient)" stroke-width="2" opacity="0.8"/>
+                <circle class="middle-ring" cx="100" cy="100" r="65" fill="none" stroke="url(#goldGradient)" stroke-width="1" opacity="0.4" stroke-dasharray="8 4"/>
+                <!-- Inner Ring -->
+                <circle class="inner-ring" cx="100" cy="100" r="50" fill="none" stroke="url(#cyanGradient)" stroke-width="2" opacity="0.8"/>
+                <!-- Particles -->
+                <circle class="particle" cx="100" cy="10" r="3" fill="#00D4FF"/>
+                <circle class="particle" cx="190" cy="100" r="2" fill="#8B5CF6" style="animation-delay: 0.3s"/>
+                <circle class="particle" cx="100" cy="190" r="3" fill="#FFD700" style="animation-delay: 0.6s"/>
+                <circle class="particle" cx="10" cy="100" r="2" fill="#FF6B35" style="animation-delay: 0.9s"/>
+                <!-- Center Core -->
+                <circle cx="100" cy="100" r="25" fill="url(#cyanGradient)" opacity="0.3"/>
+                <circle cx="100" cy="100" r="15" fill="url(#goldGradient)" opacity="0.5"/>
+                <circle cx="100" cy="100" r="8" fill="#FFFFFF" opacity="0.8"/>
+            </svg>
+        </div>
+        <h1 class="fade-in">BAZODIAC</h1>
+        <p class="subtitle fade-in delay-1">Mathematical Fusion of Western Astrology, Chinese BaZi, and Wu-Xing</p>
+        <p class="tagline fade-in delay-2">"As if a NASA engineer were reading your cards at night."</p>
+        <p class="round-info fade-in delay-3">Seed Round 2026 • €1.5M Pre-Money Valuation</p>
+    </div>
+
+    <!-- Slide 2: Problem -->
+    <div class="slide problem-slide" id="slide-1">
+        <h2 class="section-header fade-in">The Illusion of Depth</h2>
+        <div class="comparison-grid">
+            <div class="glass-card comparison-card bad fade-in delay-1">
+                <h3 class="card-title bad">❌ Standard Astrology Apps</h3>
+                <ul class="feature-list">
+                    <li>One-dimensional sun-sign retrieval</li>
+                    <li>Generic "You are..." statements</li>
+                    <li>No real mathematics</li>
+                    <li>Black-box engines, unverifiable</li>
+                    <li>Text blocks retrieved, not computed</li>
+                </ul>
+            </div>
+            <div class="glass-card comparison-card good fade-in delay-2">
+                <h3 class="card-title good">✓ BAZODIAC</h3>
+                <ul class="feature-list">
+                    <li>Psychological depth instead of memes</li>
+                    <li>Process language, not fatalistic judgments</li>
+                    <li>Feels like therapy with the stars</li>
+                    <li>Transparent mathematics, auditable</li>
+                    <li>Built for thinkers, not believers</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: FuFirE Engine -->
+    <div class="slide fufire-slide" id="slide-2">
+        <h2 class="section-header fade-in">The FuFirE Engine</h2>
+        <div class="formula-container fade-in delay-1">
+            <div class="formula">
+                Signal(s) = <span class="western">0.375·W(s)</span> + <span class="chinese">0.375·B(s)</span> + <span class="wuxing">0.25·X(s)</span>
+            </div>
+            <div class="formula-breakdown">
+                <div class="breakdown-item western">
+                    <h4>🔵 W(s) - Western Astrology</h4>
+                    <p>Planetary geometry, natal aspects, transits<br>Your fundamental being</p>
+                </div>
+                <div class="breakdown-item chinese">
+                    <h4>🔴 B(s) - Chinese BaZi</h4>
+                    <p>Heavenly Stems, Earthly Branches, Four Pillars<br>Your temporal rhythm</p>
+                </div>
+                <div class="breakdown-item wuxing">
+                    <h4>🟢 X(s) - Wu-Xing</h4>
+                    <p>Five Element generative & controlling cycles<br>Your physical expression</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Coherence Index Gauge -->
+        <div class="coherence-gauge fade-in delay-2">
+            <svg viewBox="0 0 200 100">
+                <defs>
+                    <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#EF4444"/>
+                        <stop offset="50%" style="stop-color:#FFD700"/>
+                        <stop offset="100%" style="stop-color:#10B981"/>
+                    </linearGradient>
+                </defs>
+                <path class="gauge-arc gauge-bg" d="M 20 90 A 80 80 0 0 1 180 90"/>
+                <path class="gauge-arc gauge-fill" d="M 20 90 A 80 80 0 0 1 180 90"/>
+            </svg>
+            <div class="gauge-value">0.75</div>
+            <div class="gauge-label">Coherence Index H</div>
+        </div>
+        
+        <p class="fade-in delay-3" style="text-align: center; font-size: 18px; color: var(--cosmic-gray); font-weight: 500;">
+            L2-normalized onto S⁴ unit sphere • Coherence Index H ∈ [0,1]
+        </p>
+    </div>
+
+    <!-- Slide 4: Market -->
+    <div class="slide market-slide" id="slide-3">
+        <h2 class="section-header fade-in">The $14.3B Opportunity</h2>
+        <div class="market-stats">
+            <div class="glass-card stat-card fade-in delay-1">
+                <div class="stat-value">$3B+</div>
+                <div class="stat-label">Global Market 2024</div>
+            </div>
+            <div class="glass-card stat-card fade-in delay-2">
+                <div class="stat-value">20.2%</div>
+                <div class="stat-label">Apps CAGR</div>
+            </div>
+            <div class="glass-card stat-card fade-in delay-3">
+                <div class="stat-value">$11.7B</div>
+                <div class="stat-label">Market by 2030</div>
+            </div>
+        </div>
+        <div class="blue-ocean fade-in delay-4">
+            <h3>🌊 Blue Ocean Strategy</h3>
+            <p>0% auditable BaZi fusion in the West. We're not competing — we're creating a new category of framework-curious identity tools.</p>
+        </div>
+    </div>
+
+    <!-- Slide 5: Personas -->
+    <div class="slide personas-slide" id="slide-4">
+        <h2 class="section-header fade-in">Who Pays for Depth</h2>
+        <div class="personas-grid">
+            <div class="glass-card persona-card fade-in delay-1">
+                <div class="persona-header">
+                    <div class="persona-avatar">L</div>
+                    <div class="persona-info">
+                        <h3>LENA</h3>
+                        <p>System Thinker</p>
+                    </div>
+                </div>
+                <div class="persona-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Age</div>
+                        <div class="detail-value">28</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Location</div>
+                        <div class="detail-value">Berlin</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Income</div>
+                        <div class="detail-value">€55k</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Role</div>
+                        <div class="detail-value">Brand Standard-Setter</div>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card persona-card fade-in delay-2">
+                <div class="persona-header">
+                    <div class="persona-avatar">M</div>
+                    <div class="persona-info">
+                        <h3>MARC</h3>
+                        <p>Depth Seeker</p>
+                    </div>
+                </div>
+                <div class="persona-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Age</div>
+                        <div class="detail-value">34</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Location</div>
+                        <div class="detail-value">Munich</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Income</div>
+                        <div class="detail-value">€85k</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Role</div>
+                        <div class="detail-value">Revenue Anchor</div>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card persona-card fade-in delay-3">
+                <div class="persona-header">
+                    <div class="persona-avatar">S</div>
+                    <div class="persona-info">
+                        <h3>SOPHIA</h3>
+                        <p>Intuitive Practitioner</p>
+                    </div>
+                </div>
+                <div class="persona-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Age</div>
+                        <div class="detail-value">26</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Location</div>
+                        <div class="detail-value">Vienna</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Field</div>
+                        <div class="detail-value">Psychology</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Role</div>
+                        <div class="detail-value">Retention Engine</div>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card persona-card fade-in delay-4">
+                <div class="persona-header">
+                    <div class="persona-avatar">K</div>
+                    <div class="persona-info">
+                        <h3>KAI</h3>
+                        <p>Identity Explorer</p>
+                    </div>
+                </div>
+                <div class="persona-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Age</div>
+                        <div class="detail-value">22</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Location</div>
+                        <div class="detail-value">Zurich</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Type</div>
+                        <div class="detail-value">Digital Native</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Role</div>
+                        <div class="detail-value">Acquisition Funnel</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Business Model -->
+    <div class="slide business-slide" id="slide-5">
+        <h2 class="section-header fade-in">Business Model</h2>
+        <div class="pricing-tiers">
+            <div class="glass-card pricing-card fade-in delay-1">
+                <h3 class="tier-name">FREEMIUM</h3>
+                <div class="tier-price">€0<span>/forever</span></div>
+                <ul class="feature-list">
+                    <li>Comprehensive Fusion Text</li>
+                    <li>Full breakdown of Signs & Pillars</li>
+                    <li>Day-pulse Horoscope every 4h</li>
+                    <li>Daily Quiz & Personal Signature</li>
+                    <li>Topic Horoscope (1x choice)</li>
+                </ul>
+                <div class="validation-tag">Validates: Acquisition Funnel (Kai)</div>
+            </div>
+            <div class="glass-card pricing-card premium fade-in delay-2">
+                <h3 class="tier-name">PREMIUM</h3>
+                <div class="tier-price">€9.99<span>/month</span></div>
+                <ul class="feature-list">
+                    <li>✓ All Freemium features included</li>
+                    <li>Memory-persistent AI interaction</li>
+                    <li>Vibe check every 2h</li>
+                    <li>4x Topic Horoscopes per category</li>
+                    <li>Personality Horoscope (PDF + Podcast)</li>
+                    <li>Birthday Horoscope included yearly</li>
+                </ul>
+                <div class="validation-tag">Validates: Premium WTP (Marc)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Risk -->
+    <div class="slide risk-slide" id="slide-6">
+        <h2 class="section-header fade-in">Risk Awareness</h2>
+        <div class="risk-container">
+            <div class="risk-card fade-in delay-1">
+                <div class="risk-header">
+                    <span class="risk-icon">⚠️</span>
+                    <h3 class="risk-title">HIGH RISK: Substance vs. UX</h3>
+                </div>
+                <p style="color: var(--cosmic-gray); font-size: 17px; line-height: 1.7;">Mathematical depth may not translate to perceived user value. The market proves users choose emotion over precision.</p>
+                <ul class="defense-list">
+                    <li>"Proof of Precision" moment — user feels accuracy without understanding the math</li>
+                    <li>Companion-First — Eve delivers the relationship, FuFirE delivers the data</li>
+                    <li>Fallback: FuFirE as B2B API infrastructure for other apps</li>
+                </ul>
+                <div class="kill-criteria">
+                    <h4>🎯 Kill Criteria (90 days)</h4>
+                    <div class="kill-metrics">
+                        <div class="kill-metric">
+                            <div class="metric">D30 Retention ≥18%</div>
+                            <div class="label">Target</div>
+                        </div>
+                        <div class="kill-metric">
+                            <div class="metric">NPS "More accurate" ≥40%</div>
+                            <div class="label">Target</div>
+                        </div>
+                        <div class="kill-metric">
+                            <div class="metric">Eve Daily Open ≥35%</div>
+                            <div class="label">Target</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: Contact -->
+    <div class="slide contact-slide" id="slide-7">
+        <div class="contact-content fade-in">
+            <h2 class="contact-title">Your Signal is Written</h2>
+            <p class="contact-tagline">The question is: are you ready to read it?</p>
+            <div class="contact-info">
+                <div class="glass-card contact-item">
+                    <h4>Email</h4>
+                    <p>founders@bazodiac.space</p>
+                </div>
+                <div class="glass-card contact-item">
+                    <h4>Website</h4>
+                    <p>bazodiac.space</p>
+                </div>
+                <div class="glass-card contact-item">
+                    <h4>Investor Access</h4>
+                    <p>insight.bazodiac.space</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Loading Screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }, 1500);
+        });
+
+        // Particle Background
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.color = ['#00D4FF', '#8B5CF6', '#FFD700', '#FFFFFF'][Math.floor(Math.random() * 4)];
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        // Create particles
+        for (let i = 0; i < 100; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+
+        // Navigation
+        let currentSlide = 0;
+        const totalSlides = 8;
+
+        function goToSlide(index) {
+            currentSlide = index;
+            document.getElementById(`slide-${index}`).scrollIntoView({ behavior: 'smooth' });
+            updateNavDots();
+            updateProgressBar();
+        }
+
+        function updateNavDots() {
+            const dots = document.querySelectorAll('.nav-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.remove('active');
+                if (index === currentSlide) {
+                    dot.classList.add('active');
+                }
+            });
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                e.preventDefault();
+                if (currentSlide < totalSlides - 1) {
+                    goToSlide(currentSlide + 1);
+                }
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                if (currentSlide > 0) {
+                    goToSlide(currentSlide - 1);
+                }
+            }
+        });
+
+        // Scroll detection
+        const slides = document.querySelectorAll('.slide');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const slideId = entry.target.id;
+                    const slideIndex = parseInt(slideId.split('-')[1]);
+                    currentSlide = slideIndex;
+                    updateNavDots();
+                    updateProgressBar();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        slides.forEach(slide => observer.observe(slide));
+
+        // Initialize animations on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.fade-in');
+            animatedElements.forEach(el => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Intersection Observer for scroll animations
+        const animationObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            animationObserver.observe(el);
+        });
+    </script>
+</body>
+</html>

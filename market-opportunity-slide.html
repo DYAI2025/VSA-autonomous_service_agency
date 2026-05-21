@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bazodiac - Market Opportunity</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0A0E27;
+            --secondary: #1B3A5B;
+            --accent: #00D4FF;
+            --text: #FFFFFF;
+            --text-secondary: #8B9BB4;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Particle Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .slide {
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+            animation: pulse-bg 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse-bg {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 64px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--accent), #00FF88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 3s ease infinite;
+            background-size: 200% 200%;
+            text-align: center;
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .subheadline {
+            font-size: 24px;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 50px;
+            font-style: italic;
+            animation: fade-in-up 0.8s ease both;
+        }
+
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Market Growth Chart */
+        .chart-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 40px 0;
+            animation: fade-in-up 0.6s ease 0.2s both;
+        }
+
+        .chart-title {
+            font-size: 20px;
+            color: var(--accent);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .growth-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .growth-bar {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .growth-label {
+            min-width: 100px;
+            font-size: 16px;
+            color: var(--text);
+            font-weight: bold;
+        }
+
+        .growth-track {
+            flex: 1;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .growth-fill {
+            height: 100%;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 20px;
+            font-weight: bold;
+            font-size: 18px;
+            color: var(--primary);
+            transition: width 2s ease-out;
+            width: 0;
+            background: linear-gradient(90deg, var(--accent), #00FF88);
+        }
+
+        .growth-fill.start {
+            width: 25%;
+        }
+
+        .growth-fill.end {
+            width: 100%;
+            animation: grow-bar 2s ease-out 0.5s forwards;
+        }
+
+        @keyframes grow-bar {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        .cagr-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent), #00FF88);
+            color: var(--primary);
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px auto;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(0, 212, 255, 0.7);
+                transform: scale(1.05);
+            }
+        }
+
+        /* Blue Ocean Card */
+        .blue-ocean-card {
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px solid var(--accent);
+            animation: fade-in-up 0.6s ease 0.4s both;
+            text-align: center;
+        }
+
+        .blue-ocean-title {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .blue-ocean-stat {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 10px;
+            animation: number-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes number-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .blue-ocean-text {
+            font-size: 20px;
+            color: var(--text);
+        }
+
+        /* Revenue Multiplier */
+        .revenue-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .revenue-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fade-in-up 0.6s ease 0.6s both;
+        }
+
+        .revenue-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.2);
+            border-color: var(--accent);
+        }
+
+        .revenue-title {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .revenue-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .revenue-description {
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .multiplier-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: var(--success);
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .subheadline {
+                font-size: 18px;
+            }
+
+            .revenue-section {
+                grid-template-columns: 1fr;
+            }
+
+            .multiplier-arrow {
+                transform: rotate(90deg);
+                margin: 20px 0;
+            }
+
+            .slide {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="slide">
+        <div class="container">
+            <h1>The $14.3B Opportunity</h1>
+            <p class="subheadline">We're not entering a crowded market. We're creating a new category</p>
+
+            <!-- Market Growth Chart -->
+            <div class="chart-container">
+                <h3 class="chart-title">Market Growth Trajectory</h3>
+                <div class="growth-chart">
+                    <div class="growth-bar">
+                        <span class="growth-label">2024</span>
+                        <div class="growth-track">
+                            <div class="growth-fill start">$3B</div>
+                        </div>
+                    </div>
+                    <div class="growth-bar">
+                        <span class="growth-label">2030</span>
+                        <div class="growth-track">
+                            <div class="growth-fill end">$11.7B</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 30px;">
+                    <span class="cagr-badge">20.2% CAGR</span>
+                </div>
+            </div>
+
+            <!-- Blue Ocean Statement -->
+            <div class="blue-ocean-card">
+                <div class="blue-ocean-title">Blue Ocean Strategy</div>
+                <div class="blue-ocean-stat">0%</div>
+                <div class="blue-ocean-text">auditable BaZi fusion in the West</div>
+            </div>
+
+            <!-- Revenue Multiplier -->
+            <div class="revenue-section">
+                <div class="revenue-card">
+                    <div class="revenue-title">Entertainment Users</div>
+                    <div class="revenue-value">$1-10</div>
+                    <div class="revenue-description">Casual astrology & entertainment</div>
+                </div>
+
+                <div class="revenue-card">
+                    <div class="revenue-title">Framework-Curious Users</div>
+                    <div class="revenue-value">$10-1000</div>
+                    <div class="revenue-description">Serious personal growth & self-discovery</div>
+                </div>
+            </div>
+
+            <div class="multiplier-arrow">⬆️ 10-100x Revenue Potential</div>
+        </div>
+    </div>
+
+    <script>
+        // Generate particles
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 50;
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+    </script>
+</body>
+</html>

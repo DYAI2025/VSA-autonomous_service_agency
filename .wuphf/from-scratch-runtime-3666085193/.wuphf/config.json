@@ -1,0 +1,7 @@
+{
+  "memory_backend": "markdown",
+  "llm_provider": "ollama",
+  "llm_provider_priority": [
+    "ollama"
+  ]
+}

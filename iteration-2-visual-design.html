@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bazodiac - Iteration 2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0A0E27;
+            --secondary: #1B3A5B;
+            --accent: #00D4FF;
+            --text: #FFFFFF;
+            --text-secondary: #8B9BB4;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .slide {
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            position: relative;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        h1 {
+            font-size: 64px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--accent), #00FF88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 48px;
+            color: var(--accent);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: var(--text);
+        }
+
+        p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            border: 2px solid var(--accent);
+        }
+
+        .stat-value {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .formula {
+            font-family: 'Courier New', monospace;
+            font-size: 32px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            border-radius: 16px;
+            border: 2px solid var(--accent);
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .formula .western { color: #3B82F6; }
+        .formula .chinese { color: #EF4444; }
+        .formula .wuxing { color: #10B981; }
+
+        .persona-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pricing-card.premium {
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-table th {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent);
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+            align-items: center;
+        }
+
+        .timeline-date {
+            background: var(--accent);
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            min-width: 150px;
+        }
+
+        .risk-card {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid var(--danger);
+            border-radius: 16px;
+            padding: 30px;
+        }
+
+        .nav-dots {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-dot:hover, .nav-dot.active {
+            background: var(--accent);
+            transform: scale(1.3);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-dots">
+        <div class="nav-dot active" onclick="goToSlide(0)"></div>
+        <div class="nav-dot" onclick="goToSlide(1)"></div>
+        <div class="nav-dot" onclick="goToSlide(2)"></div>
+        <div class="nav-dot" onclick="goToSlide(3)"></div>
+        <div class="nav-dot" onclick="goToSlide(4)"></div>
+        <div class="nav-dot" onclick="goToSlide(5)"></div>
+        <div class="nav-dot" onclick="goToSlide(6)"></div>
+        <div class="nav-dot" onclick="goToSlide(7)"></div>
+        <div class="nav-dot" onclick="goToSlide(8)"></div>
+        <div class="nav-dot" onclick="goToSlide(9)"></div>
+    </div>
+
+    <!-- Slide 1: Title -->
+    <div class="slide" id="slide-0">
+        <h1>BAZODIAC</h1>
+        <p style="font-size: 24px; text-align: center; margin-bottom: 40px;">
+            Mathematical Fusion of Western Astrology, Chinese BaZi, and Wu-Xing
+        </p>
+        <div class="card" style="text-align: center;">
+            <h3 style="color: var(--accent);">Seed Round 2026</h3>
+            <p>€1.5M Pre-Money Valuation</p>
+        </div>
+    </div>
+
+    <!-- Slide 2: Problem -->
+    <div class="slide" id="slide-1">
+        <div class="container">
+            <h2>The Problem</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Current Apps Offer</h3>
+                    <ul>
+                        <li>One-dimensional sun-sign retrieval</li>
+                        <li>Generic statements without logic</li>
+                        <li>No mathematical foundation</li>
+                        <li>Black-box algorithms</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Market Reality</h3>
+                    <p>Co-Star has 20M downloads but questionable quality</p>
+                    <p>Users choose emotion over precision</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Solution -->
+    <div class="slide" id="slide-2">
+        <div class="container">
+            <h2>The Solution: FuFirE Engine</h2>
+            <div class="formula">
+                Signal(s) = <span class="western">0.375·W(s)</span> + <span class="chinese">0.375·B(s)</span> + <span class="wuxing">0.25·X(s)</span>
+            </div>
+            <div class="grid-3">
+                <div class="card">
+                    <h3 style="color: #3B82F6;">W(s) - Western</h3>
+                    <p>Planetary geometry, natal aspects</p>
+                </div>
+                <div class="card">
+                    <h3 style="color: #EF4444;">B(s) - Chinese BaZi</h3>
+                    <p>Four Pillars, Heavenly Stems</p>
+                </div>
+                <div class="card">
+                    <h3 style="color: #10B981;">X(s) - Wu-Xing</h3>
+                    <p>Five Element cycles</p>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 20px;">
+                L2-normalized onto S⁴ unit sphere for comparability
+            </p>
+        </div>
+    </div>
+
+    <!-- Slide 4: Market -->
+    <div class="slide" id="slide-3">
+        <div class="container">
+            <h2>Market Opportunity</h2>
+            <div class="grid-3">
+                <div class="stat-card">
+                    <div class="stat-value">$3B</div>
+                    <p>Global Market 2024</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">20.2%</div>
+                    <p>Apps CAGR</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">$11.7B</div>
+                    <p>Market by 2030</p>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 40px;">
+                <h3>🌊 Blue Ocean Strategy</h3>
+                <p>0% auditable BaZi fusion in the West</p>
+                <p>Framework-curious users pay 10-100x more than entertainment users</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Personas -->
+    <div class="slide" id="slide-4">
+        <div class="container">
+            <h2>Target Users</h2>
+            <div class="grid-4">
+                <div class="persona-card">
+                    <h3>LENA</h3>
+                    <p style="color: var(--accent);">System Thinker</p>
+                    <p>28 • Berlin • €55k</p>
+                    <p style="font-size: 14px;">Brand Standard-Setter</p>
+                </div>
+                <div class="persona-card">
+                    <h3>MARC</h3>
+                    <p style="color: var(--accent);">Depth Seeker</p>
+                    <p>34 • Munich • €85k</p>
+                    <p style="font-size: 14px;">Revenue Anchor</p>
+                </div>
+                <div class="persona-card">
+                    <h3>SOPHIA</h3>
+                    <p style="color: var(--accent);">Intuitive Practitioner</p>
+                    <p>26 • Vienna • Psychology</p>
+                    <p style="font-size: 14px;">Retention Engine</p>
+                </div>
+                <div class="persona-card">
+                    <h3>KAI</h3>
+                    <p style="color: var(--accent);">Identity Explorer</p>
+                    <p>22 • Zurich • Digital Native</p>
+                    <p style="font-size: 14px;">Acquisition Funnel</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Business Model -->
+    <div class="slide" id="slide-5">
+        <div class="container">
+            <h2>Business Model</h2>
+            <div class="grid-2">
+                <div class="pricing-card">
+                    <h3>FREEMIUM</h3>
+                    <div class="stat-value">€0</div>
+                    <ul>
+                        <li>Basic features</li>
+                        <li>Validates acquisition</li>
+                    </ul>
+                </div>
+                <div class="pricing-card premium">
+                    <h3>PREMIUM</h3>
+                    <div class="stat-value">€9.99/mo</div>
+                    <ul>
+                        <li>AI memory persistence</li>
+                        <li>Advanced features</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 30px;">
+                <h3>Unit Economics</h3>
+                <p>CAC <€3 • LTV €35-50 • Conversion ≥5%</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Competition -->
+    <div class="slide" id="slide-6">
+        <div class="container">
+            <h2>Competitive Advantage</h2>
+            <table class="comparison-table">
+                <tr>
+                    <th>Criterion</th>
+                    <th>Cosmic Fusion</th>
+                    <th>BAZODIAC</th>
+                </tr>
+                <tr>
+                    <td>BaZi Depth</td>
+                    <td>Year animal only</td>
+                    <td>Full 4-Pillar calculation</td>
+                </tr>
+                <tr>
+                    <td>Engine Auditability</td>
+                    <td>Black box</td>
+                    <td>Open formula + auditability</td>
+                </tr>
+                <tr>
+                    <td>Cross-System Metric</td>
+                    <td>None</td>
+                    <td>Coherence Index H ∈ [0,1]</td>
+                </tr>
+                <tr>
+                    <td>DACH Focus</td>
+                    <td>No</td>
+                    <td>Yes - bilingual strategy</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Slide 8: Risk -->
+    <div class="slide" id="slide-7">
+        <div class="container">
+            <h2>Risk Management</h2>
+            <div class="risk-card">
+                <h3>Main Risk</h3>
+                <p>Mathematical depth may not translate to user value</p>
+                <h3>Mitigation</h3>
+                <ul>
+                    <li>"Proof of Precision" moment</li>
+                    <li>Companion-first approach</li>
+                    <li>Fallback: B2B API infrastructure</li>
+                </ul>
+                <h3>Kill Criteria (90 days)</h3>
+                <p>D30 retention ≥18% • NPS ≥40%</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 9: Timeline -->
+    <div class="slide" id="slide-8">
+        <div class="container">
+            <h2>Timeline</h2>
+            <div class="timeline-item">
+                <div class="timeline-date">Q2 2026</div>
+                <div class="card">
+                    <h3>DACH Launch</h3>
+                    <p>2K installs, 90-day validation</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Q4 2026</div>
+                <div class="card">
+                    <h3>Levi Voice Coaching</h3>
+                    <p>B2B API beta, 10K MAU</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Q2 2027</div>
+                <div class="card">
+                    <h3>EU Expansion</h3>
+                    <p>FuFirE-as-a-Service, Synastrie-Engine</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: Ask -->
+    <div class="slide" id="slide-9">
+        <div class="container">
+            <h2>Investment Ask</h2>
+            <div class="stat-card">
+                <div class="stat-value">€1.5M</div>
+                <p>Seed Funding</p>
+            </div>
+            <div class="grid-2" style="margin-top: 30px;">
+                <div class="card">
+                    <h3>Allocation</h3>
+                    <ul>
+                        <li>Product development: 40%</li>
+                        <li>Team building: 30%</li>
+                        <li>Marketing: 20%</li>
+                        <li>Operations: 10%</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Contact</h3>
+                    <p>founders@bazodiac.space</p>
+                    <p>bazodiac.space</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 10;
+
+        function goToSlide(index) {
+            currentSlide = index;
+            document.getElementById(`slide-${index}`).scrollIntoView({ behavior: 'smooth' });
+            updateNavDots();
+        }
+
+        function updateNavDots() {
+            const dots = document.querySelectorAll('.nav-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.remove('active');
+                if (index === currentSlide) {
+                    dot.classList.add('active');
+                }
+            });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                if (currentSlide < totalSlides - 1) goToSlide(currentSlide + 1);
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                if (currentSlide > 0) goToSlide(currentSlide - 1);
+            }
+        });
+
+        const slides = document.querySelectorAll('.slide');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const slideId = entry.target.id;
+                    const slideIndex = parseInt(slideId.split('-')[1]);
+                    currentSlide = slideIndex;
+                    updateNavDots();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        slides.forEach(slide => observer.observe(slide));
+    </script>
+</body>
+</html>

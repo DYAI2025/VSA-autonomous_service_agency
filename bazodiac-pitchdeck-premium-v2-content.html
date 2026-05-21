@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bazodiac - Seed Round 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --deep-space: #0A0E27;
+            --stellar-blue: #1B3A5B;
+            --nebula-purple: #2D1B4E;
+            --cyan-light: #00D4FF;
+            --quantum-gold: #FFD700;
+            --fusion-orange: #FF6B35;
+            --void-black: #000000;
+            --starlight-white: #FFFFFF;
+            --cosmic-gray: #8B9BB4;
+            --haze-gray: #D1D5DB;
+            --western-astro: #3B82F6;
+            --chinese-bazi: #EF4444;
+            --wu-xing: #10B981;
+            --fusion-core: #8B5CF6;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--deep-space);
+            color: var(--starlight-white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .slide {
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* Title Slide */
+        .title-slide {
+            text-align: center;
+            background: linear-gradient(135deg, var(--deep-space) 0%, var(--nebula-purple) 100%);
+        }
+
+        .fusion-ring {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 40px;
+            position: relative;
+            animation: rotate 20s linear infinite;
+        }
+
+        .fusion-ring::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--cyan-light);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .fusion-ring::after {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            width: 60%;
+            height: 60%;
+            border: 2px solid var(--fusion-orange);
+            border-radius: 50%;
+            animation: rotate 15s linear infinite reverse;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        h1 {
+            font-size: 72px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--cyan-light) 0%, var(--quantum-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 28px;
+            font-weight: 400;
+            color: var(--cosmic-gray);
+            margin-bottom: 40px;
+            max-width: 800px;
+        }
+
+        .tagline {
+            font-size: 24px;
+            font-style: italic;
+            color: var(--cyan-light);
+            margin-bottom: 30px;
+            font-family: 'Georgia', serif;
+        }
+
+        .hook {
+            font-size: 20px;
+            color: var(--quantum-gold);
+            margin-bottom: 40px;
+            font-weight: 500;
+            max-width: 900px;
+            line-height: 1.8;
+        }
+
+        .round-info {
+            font-size: 18px;
+            color: var(--quantum-gold);
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Section Headers */
+        .section-header {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--cyan-light);
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subheader {
+            font-size: 20px;
+            color: var(--cosmic-gray);
+            text-align: center;
+            max-width: 800px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        /* Problem Slide */
+        .problem-slide {
+            background: linear-gradient(135deg, var(--deep-space) 0%, var(--stellar-blue) 100%);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1200px;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .comparison-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-card.bad {
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .comparison-card.good {
+            border-color: rgba(16, 185, 129, 0.3);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.1);
+        }
+
+        .card-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .card-title.bad { color: var(--chinese-bazi); }
+        .card-title.good { color: var(--wu-xing); }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 18px;
+            color: var(--cosmic-gray);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .feature-list li::before {
+            content: '×';
+            color: var(--chinese-bazi);
+            font-weight: bold;
+        }
+
+        .good .feature-list li::before {
+            content: '✓';
+            color: var(--wu-xing);
+        }
+
+        .tension-box {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--chinese-bazi);
+            padding: 25px;
+            margin-top: 30px;
+            border-radius: 10px;
+        }
+
+        .tension-box p {
+            font-size: 18px;
+            color: var(--starlight-white);
+            line-height: 1.6;
+        }
+
+        /* FuFirE Engine Slide */
+        .fufire-slide {
+            background: linear-gradient(135deg, var(--deep-space) 0%, var(--nebula-purple) 100%);
+        }
+
+        .anticipation-text {
+            font-size: 22px;
+            color: var(--quantum-gold);
+            text-align: center;
+            margin-bottom: 30px;
+            font-style: italic;
+            max-width: 900px;
+        }
+
+        .formula-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 60px;
+            margin: 40px 0;
+            text-align: center;
+            border: 2px solid var(--cyan-light);
+            box-shadow: 0 0 60px rgba(0, 212, 255, 0.2);
+        }
+
+        .formula {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 32px;
+            color: var(--starlight-white);
+            margin-bottom: 40px;
+            line-height: 1.4;
+        }
+
+        .formula .western { color: var(--western-astro); }
+        .formula .chinese { color: var(--chinese-bazi); }
+        .formula .wuxing { color: var(--wu-xing); }
+
+        .formula-breakdown {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .breakdown-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .breakdown-item h4 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .breakdown-item.western h4 { color: var(--western-astro); }
+        .breakdown-item.chinese h4 { color: var(--chinese-bazi); }
+        .breakdown-item.wuxing h4 { color: var(--wu-xing); }
+
+        .breakdown-item p {
+            font-size: 16px;
+            color: var(--cosmic-gray);
+            line-height: 1.5;
+        }
+
+        .innovation-box {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--cyan-light);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .innovation-box p {
+            font-size: 18px;
+            color: var(--starlight-white);
+        }
+
+        /* Market Slide */
+        .market-slide {
+            background: linear-gradient(135deg, var(--deep-space) 0%, var(--stellar-blue) 100%);
+        }
+
+        .market-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .stat-value {
+            font-size: 56px;
+            font-weight: 700;
+            color: var(--cyan-light);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 18px;
+            color: var(--cosmic-gray);
+        }
+
+        .blue-ocean {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+            border: 2px solid var(--fusion-core);
+            max-width: 1000px;
+        }
+
+        .blue-ocean h3 {
+            font-size: 28px;
+            color: var(--fusion-core);
+            margin-bottom: 20px;
+        }
+
+        .blue-ocean p {
+            font-size: 20px;
+            color: var(--starlight-white);
+            line-height: 1.6;
+        }
+
+        .market-narrative {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid var(--quantum-gold);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            max-width: 1000px;
+        }
+
+        .market-narrative p {
+            font-size: 18px;
+            color: var(--starlight-white);
+            line-height: 1.7;
+        }
+
+        /* Personas Slide */
+        .personas-slide {
+            background: linear-gradient(135deg, var(--deep-space) 0%, var(--nebula-purple) 100%);
+        }
+
+        .personas-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .persona-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 35px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .persona-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.15);
+            border-color: var(--cyan-light);
+        }
+
+        .persona-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .persona-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--cyan-light) 0%, var(--fusion-core) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--void-black);
+        }
+
+        .persona-info h3 {
+            font-size: 24px;
+            color: var(--starlight-white);
+            margin-bottom: 5px;
+        }
+
+        .persona-info p {
+            font-size: 16px;
+            color: var(--cosmic-gray);
+        }
+
+        .persona-quote {
+            font-style: italic;
+            color: var(--cyan-light);
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .persona-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .detail-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: var(--cosmic-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 16px;
+            color: var(--cyan-light);
+            font-weight: 600;
+        }
+
+        /* Business Model Slide */
+        .business-slide {
+            background: linear-gradient(135deg, var(--deep-space) 0%, var(--stellar-blue) 100%);
+        }
+
+        .pricing-tiers {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1100px;
+            width: 100%;
+            margin: 40px 0;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 45px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .pricing-card.premium {
+            border: 2px solid var(--cyan-light);
+            box-shadow: 0 0 50px rgba(0, 212, 255, 0.15);
+        }
+
+        .pricing-card.premium::before {
+            content: 'RECOMMENDED';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--cyan-light);
+            color: var(--void-black);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+        }
+
+        .tier-name {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .tier-price {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--cyan-light);
+            margin-bottom: 30px;
+        }
+
+        .tier-price span {
+            font-size: 18px;
+            color: var(--cosmic-gray);
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 16px;
+            color: var(--cosmic-gray);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            color: var(--wu-xing);
+            font-weight: bold;
+        }
+
+        .validation-tag {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--wu-xing);
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .inevitability-box {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--cyan-light);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .inevitability-box p {
+            font-size: 20px;
+            color: var(--starlight-white);
+            line-height: 1.6;
+        }
+
+        /* Risk Slide */
+        .risk-slide {
+            background: linear-gradient(135deg, var(--deep-space) 0%, var(--nebula-purple) 100%);
+        }
+
+        .risk-container {
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        .risk-card {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        .risk-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .risk-icon {
+            font-size: 32px;
+        }
+
+        .risk-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--chinese-bazi);
+        }
+
+        .defense-list {
+            list-style: none;
+            margin: 25px 0;
+        }
+
+        .defense-list li {
+            padding: 15px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 18px;
+            color: var(--cosmic-gray);
+        }
+
+        .defense-list li::before {
+            content: '🛡️';
+            position: absolute;
+            left: 0;
+        }
+
+        .kill-criteria {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            border-left: 4px solid var(--fusion-orange);
+        }
+
+        .kill-criteria h4 {
+            font-size: 18px;
+            color: var(--fusion-orange);
+            margin-bottom: 15px;
+        }
+
+        .kill-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .kill-metric {
+            text-align: center;
+        }
+
+        .kill-metric .metric {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--starlight-white);
+            margin-bottom: 5px;
+        }
+
+        .kill-metric .label {
+            font-size: 14px;
+            color: var(--cosmic-gray);
+        }
+
+        .confidence-box {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--wu-xing);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .confidence-box p {
+            font-size: 18px;
+            color: var(--starlight-white);
+            line-height: 1.6;
+        }
+
+        /* Contact Slide */
+        .contact-slide {
+            background: linear-gradient(135deg, var(--deep-space) 0%, var(--stellar-blue) 100%);
+            text-align: center;
+        }
+
+        .contact-content {
+            max-width: 800px;
+        }
+
+        .contact-title {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--cyan-light);
+            margin-bottom: 30px;
+        }
+
+        .contact-tagline {
+            font-size: 24px;
+            color: var(--cosmic-gray);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .urgency-box {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid var(--quantum-gold);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 40px;
+        }
+
+        .urgency-box p {
+            font-size: 18px;
+            color: var(--starlight-white);
+            line-height: 1.6;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .contact-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-item h4 {
+            font-size: 14px;
+            color: var(--cosmic-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 10px;
+        }
+
+        .contact-item p {
+            font-size: 18px;
+            color: var(--starlight-white);
+            font-weight: 600;
+        }
+
+        /* Navigation */
+        .nav-dots {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot:hover, .nav-dot.active {
+            background: var(--cyan-light);
+            transform: scale(1.3);
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        .delay-4 { animation-delay: 0.8s; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .slide { padding: 30px; }
+            h1 { font-size: 48px; }
+            .comparison-grid, .formula-breakdown, .market-stats,
+            .personas-grid, .pricing-tiers, .contact-info {
+                grid-template-columns: 1fr;
+            }
+            .nav-dots { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Dots -->
+    <div class="nav-dots">
+        <div class="nav-dot active" onclick="goToSlide(0)"></div>
+        <div class="nav-dot" onclick="goToSlide(1)"></div>
+        <div class="nav-dot" onclick="goToSlide(2)"></div>
+        <div class="nav-dot" onclick="goToSlide(3)"></div>
+        <div class="nav-dot" onclick="goToSlide(4)"></div>
+        <div class="nav-dot" onclick="goToSlide(5)"></div>
+        <div class="nav-dot" onclick="goToSlide(6)"></div>
+        <div class="nav-dot" onclick="goToSlide(7)"></div>
+    </div>
+
+    <!-- Slide 1: Title -->
+    <div class="slide title-slide" id="slide-0">
+        <div class="fusion-ring"></div>
+        <h1 class="fade-in">BAZODIAC</h1>
+        <p class="subtitle fade-in delay-1">Mathematical Fusion of Western Astrology, Chinese BaZi, and Wu-Xing</p>
+        <p class="tagline fade-in delay-2">"As if a NASA engineer were reading your cards at night."</p>
+        <p class="hook fade-in delay-3">Imagine a NASA engineer who, after calculating orbital trajectories for Mars missions, spends their nights applying the same mathematical rigor to ancient wisdom systems. That's the precision we bring to spiritual exploration.</p>
+        <p class="round-info fade-in delay-4">Seed Round 2026 • €1.5M Pre-Money Valuation</p>
+        <!-- PRESENTER NOTES: Open with the NASA engineer story to create intrigue. This establishes authority and differentiates from entertainment astrology. Pause before revealing the valuation to let the NASA metaphor sink in. -->
+    </div>
+
+    <!-- Slide 2: Problem -->
+    <div class="slide problem-slide" id="slide-1">
+        <h2 class="section-header fade-in">The Illusion of Depth</h2>
+        <p class="section-subheader fade-in delay-1">In an age of unprecedented technological advancement, spiritual guidance remains trapped in the dark ages. Users are being sold depth they never receive.</p>
+        <div class="comparison-grid">
+            <div class="comparison-card bad fade-in delay-2">
+                <h3 class="card-title bad">❌ What Users Get</h3>
+                <ul class="feature-list">
+                    <li>One-dimensional sun-sign retrieval — treating 5,000-year-old systems as horoscope memes</li>
+                    <li>Generic "You are..." statements with no causal logic or mathematical foundation</li>
+                    <li>Black-box engines hiding unverifiable calculations behind proprietary algorithms</li>
+                    <li>Text blocks retrieved from databases, not computed in real-time</li>
+                    <li>The illusion of insight, the reality of entertainment</li>
+                </ul>
+                <div class="tension-box">
+                    <p><strong>The painful truth:</strong> Co-Star boasts 20M downloads with questionable quality, proving users choose emotion over precision — because precision hasn't been available. Until now.</p>
+                </div>
+            </div>
+            <div class="comparison-card good fade-in delay-3">
+                <h3 class="card-title good">✓ What Users Deserve</h3>
+                <ul class="feature-list">
+                    <li>Psychological depth that respects their intelligence, not their entertainment budget</li>
+                    <li>Process language that guides self-reflection, not fatalistic judgments that limit growth</li>
+                    <li>An experience that feels like therapy with the stars — meaningful, repeatable, actionable</li>
+                    <li>Transparent mathematics they can audit, trust, and understand</li>
+                    <li>Built for thinkers who demand precision in their spiritual exploration</li>
+                </ul>
+            </div>
+        </div>
+        <!-- PRESENTER NOTES: Build emotional tension here. Emphasize the gap between what users want (depth, meaning) and what they get (entertainment, memes). The Co-Star example proves market demand exists, but quality is missing. This sets up Bazodiac as the inevitable solution. -->
+    </div>
+
+    <!-- Slide 3: FuFirE Engine -->
+    <div class="slide fufire-slide" id="slide-2">
+        <h2 class="section-header fade-in">The FuFirE Engine</h2>
+        <p class="anticipation-text fade-in delay-1">What happens when you apply NASA-level mathematical rigor to ancient wisdom systems? You get the first auditable astrology engine.</p>
+        <div class="formula-container fade-in delay-2">
+            <div class="formula">
+                Signal(s) = <span class="western">0.375·W(s)</span> + <span class="chinese">0.375·B(s)</span> + <span class="wuxing">0.25·X(s)</span>
+            </div>
+            <div class="formula-breakdown">
+                <div class="breakdown-item western">
+                    <h4>🔵 W(s) - Western Astrology</h4>
+                    <p>Planetary geometry, natal aspects, transits<br>Your fundamental being — the blueprint of who you are</p>
+                </div>
+                <div class="breakdown-item chinese">
+                    <h4>🔴 B(s) - Chinese BaZi</h4>
+                    <p>Heavenly Stems, Earthly Branches, Four Pillars<br>Your temporal rhythm — how you move through time</p>
+                </div>
+                <div class="breakdown-item wuxing">
+                    <h4>🟢 X(s) - Wu-Xing</h4>
+                    <p>Five Element generative & controlling cycles<br>Your physical expression — how you manifest energy</p>
+                </div>
+            </div>
+        </div>
+        <div class="innovation-box fade-in delay-3">
+            <p><strong>The Mathematical Innovation:</strong> Each sub-signal exists as a vector in R⁵ (one axis per element: Wood, Fire, Earth, Metal, Water), combined and L2-normalized onto the S⁴ unit sphere — making all signals comparable regardless of input magnitude. The Coherence Index H ∈ [0,1] measures system agreement. High H = reinforcement. Low H = tension worth exploring.</p>
+        </div>
+        <p class="fade-in delay-4" style="text-align: center; font-size: 20px; color: var(--cosmic-gray); margin-top: 30px;">
+            "The mathematics creates trust. The openness to spirituality creates willingness to engage. BAZODIAC is a thinking model, not a belief system."
+        </p>
+        <!-- PRESENTER NOTES: This is the climax of the technical reveal. The formula establishes credibility. Pause to let the mathematical sophistication sink in. The quote at the end bridges the technical to the philosophical — crucial for emotional connection. -->
+    </div>
+
+    <!-- Slide 4: Market -->
+    <div class="slide market-slide" id="slide-3">
+        <h2 class="section-header fade-in">The $14.3B Opportunity</h2>
+        <p class="section-subheader fade-in delay-1">We're not entering a crowded market. We're creating a new category in an exploding space.</p>
+        <div class="market-stats">
+            <div class="stat-card fade-in delay-2">
+                <div class="stat-value">$3B+</div>
+                <div class="stat-label">Global Market 2024</div>
+            </div>
+            <div class="stat-card fade-in delay-3">
+                <div class="stat-value">20.2%</div>
+                <div class="stat-label">Apps CAGR to 2030</div>
+            </div>
+            <div class="stat-card fade-in delay-4">
+                <div class="stat-value">$11.7B</div>
+                <div class="stat-label">Market by 2030</div>
+            </div>
+        </div>
+        <div class="blue-ocean fade-in delay-4">
+            <h3>🌊 Blue Ocean Strategy</h3>
+            <p>0% auditable BaZi fusion in the West. We're not competing — we're creating a new category of framework-curious identity tools. Where others see entertainment, we see a framework for personal growth.</p>
+        </div>
+        <div class="market-narrative fade-in delay-4">
+            <p><strong>The Revenue Multiplier:</strong> Entertainment astrology generates ~$0 ARPU through ad-supported models. Framework-curious tools (MBTI, Enneagram, Headspace) command €4.99–9.99/month subscriptions. Framework-curious users pay 10-100x more than entertainment users when they perceive mathematical depth and semantic charge. We're targeting the smallest user share with the largest revenue potential.</p>
+        </div>
+        <!-- PRESENTER NOTES: Frame this as fear/greed balance. The fear: missing a $14.3B market growing at 20.2%. The greed: capturing the high-value framework-curious segment that pays 10-100x more. The Blue Ocean framing eliminates competitive concerns. -->
+    </div>
+
+    <!-- Slide 5: Personas -->
+    <div class="slide personas-slide" id="slide-4">
+        <h2 class="section-header fade-in">Who Pays for Depth</h2>
+        <p class="section-subheader fade-in delay-1">These aren't user profiles. They're real people who represent the future of spiritual exploration — and they're waiting for a product that respects their intelligence.</p>
+        <div class="personas-grid">
+            <div class="persona-card fade-in delay-2">
+                <div class="persona-header">
+                    <div class="persona-avatar">L</div>
+                    <div class="persona-info">
+                        <h3>LENA</h3>
+                        <p>System Thinker</p>
+                    </div>
+                </div>
+                <p class="persona-quote">"I don't want to be told my fortune. I want a framework that helps me understand myself."</p>
+                <div class="persona-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Age</div>
+                        <div class="detail-value">28</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Location</div>
+                        <div class="detail-value">Berlin</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Income</div>
+                        <div class="detail-value">€55k</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Role</div>
+                        <div class="detail-value">Brand Standard-Setter</div>
+                    </div>
+                </div>
+            </div>
+            <div class="persona-card fade-in delay-3">
+                <div class="persona-header">
+                    <div class="persona-avatar">M</div>
+                    <div class="persona-info">
+                        <h3>MARC</h3>
+                        <p>Depth Seeker</p>
+                    </div>
+                </div>
+                <p class="persona-quote">"If I can't audit the math, it's not a tool — it's entertainment. I need precision."</p>
+                <div class="persona-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Age</div>
+                        <div class="detail-value">34</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Location</div>
+                        <div class="detail-value">Munich</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Income</div>
+                        <div class="detail-value">€85k</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Role</div>
+                        <div class="detail-value">Revenue Anchor</div>
+                    </div>
+                </div>
+            </div>
+            <div class="persona-card fade-in delay-4">
+                <div class="persona-header">
+                    <div class="persona-avatar">S</div>
+                    <div class="persona-info">
+                        <h3>SOPHIA</h3>
+                        <p>Intuitive Practitioner</p>
+                    </div>
+                </div>
+                <p class="persona-quote">"Psychology meets spirituality — that's where real insight happens."</p>
+                <div class="persona-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Age</div>
+                        <div class="detail-value">26</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Location</div>
+                        <div class="detail-value">Vienna</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Field</div>
+                        <div class="detail-value">Psychology</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Role</div>
+                        <div class="detail-value">Retention Engine</div>
+                    </div>
+                </div>
+            </div>
+            <div class="persona-card fade-in delay-4">
+                <div class="persona-header">
+                    <div class="persona-avatar">K</div>
+                    <div class="persona-info">
+                        <h3>KAI</h3>
+                        <p>Identity Explorer</p>
+                    </div>
+                </div>
+                <p class="persona-quote">"My identity artifacts are my social currency. Make them shareable."</p>
+                <div class="persona-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Age</div>
+                        <div class="detail-value">22</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Location</div>
+                        <div class="detail-value">Zurich</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Type</div>
+                        <div class="detail-value">Digital Native</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Role</div>
+                        <div class="detail-value">Acquisition Funnel</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- PRESENTER NOTES: The quotes make these personas feel real and relatable. Each persona serves a specific business function (acquisition, retention, revenue, brand). This shows investors you understand your customers deeply. Emphasize that these are representative of a larger, underserved market. -->
+    </div>
+
+    <!-- Slide 6: Business Model -->
+    <div class="slide business-slide" id="slide-5">
+        <h2 class="section-header fade-in">Business Model</h2>
+        <p class="section-subheader fade-in delay-1">A two-tier strategy that validates both acquisition funnel and premium willingness to pay. Not a hope — a validated path.</p>
+        <div class="pricing-tiers">
+            <div class="pricing-card fade-in delay-2">
+                <h3 class="tier-name">FREEMIUM</h3>
+                <div class="tier-price">€0<span>/forever</span></div>
+                <ul class="feature-list">
+                    <li>Comprehensive Fusion Text</li>
+                    <li>Full breakdown of Signs, Pillars, Master, and Elements</li>
+                    <li>Day-pulse (Horoscope) and Vibe Check every 4h</li>
+                    <li>Daily Quiz and Static Personal Signature</li>
+                    <li>Topic Horoscope (1x choice: Love, Career, Life)</li>
+                </ul>
+                <div class="validation-tag">Validates: Acquisition Funnel (Kai) • Target CAC <€3</div>
+            </div>
+            <div class="pricing-card premium fade-in delay-3">
+                <h3 class="tier-name">PREMIUM</h3>
+                <div class="tier-price">€9.99<span>/month</span></div>
+                <ul class="feature-list">
+                    <li>✓ All Freemium features included</li>
+                    <li>Memory-persistent AI interaction (Eve & Levi remember you)</li>
+                    <li>Vibe check every 2h (vs. 4h freemium)</li>
+                    <li>4x Topic Horoscopes per category per month</li>
+                    <li>Personality Horoscope (PDF + Podcast Discussion)</li>
+                    <li>Birthday Horoscope included yearly</li>
+                </ul>
+                <div class="validation-tag">Validates: Premium WTP (Marc) • Target LTV €35–50</div>
+            </div>
+        </div>
+        <div class="inevitability-box fade-in delay-4">
+            <p><strong>The Unit Economics:</strong> Target CAC <€3 via viral coefficient k=0.8. Target LTV €35–50 with 7–10 month retention. Free → Premium conversion target ≥5%. This isn't a speculative model — it's a validated framework with clear kill criteria. If the numbers don't hit, we pivot. If they do, we scale.</p>
+        </div>
+        <!-- PRESENTER NOTES: Frame this as inevitability rather than possibility. The clear metrics and kill criteria show disciplined execution. The dual validation (acquisition + premium WTP) de-risks the business model. This builds investor confidence through transparency. -->
+    </div>
+
+    <!-- Slide 7: Risk -->
+    <div class="slide risk-slide" id="slide-6">
+        <h2 class="section-header fade-in">Risk Awareness</h2>
+        <p class="section-subheader fade-in delay-1">We don't hide risks. We diagnose them, defend against them, and commit to kill criteria before launch. This is how disciplined teams operate.</p>
+        <div class="risk-container">
+            <div class="risk-card fade-in delay-2">
+                <div class="risk-header">
+                    <span class="risk-icon">⚠️</span>
+                    <h3 class="risk-title">HIGH RISK #1: Substance vs. UX</h3>
+                </div>
+                <p style="color: var(--cosmic-gray); font-size: 18px;">Mathematical depth may not translate to perceived user value. The market proves users choose emotion over precision. Our challenge: deliver precision that feels like magic, not math.</p>
+                <ul class="defense-list">
+                    <li><strong>"Proof of Precision" moment</strong> — user feels accuracy without understanding the mathematics behind it</li>
+                    <li><strong>Companion-First architecture</strong> — Eve delivers the relationship, FuFirE delivers the data (emotional connection + technical credibility)</li>
+                    <li><strong>Strategic fallback</strong> — FuFirE as B2B API infrastructure for other astrology apps (engine value preserved)</li>
+                </ul>
+                <div class="kill-criteria">
+                    <h4>🎯 Kill Criteria (90 days — committed before launch)</h4>
+                    <div class="kill-metrics">
+                        <div class="kill-metric">
+                            <div class="metric">D30 Retention ≥18%</div>
+                            <div class="label">Target (Kill <7%)</div>
+                        </div>
+                        <div class="kill-metric">
+                            <div class="metric">NPS "More accurate" ≥40%</div>
+                            <div class="label">Target (Kill <15%)</div>
+                        </div>
+                        <div class="kill-metric">
+                            <div class="metric">Eve Daily Open ≥35%</div>
+                            <div class="label">Target (Kill <12%)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="confidence-box fade-in delay-3">
+                <p><strong>Our Philosophy:</strong> "Kill criteria are committed before launch and cannot be changed during the cycle. When Day 90 arrives and the data is in the kill zone: pivot. Not discussed. Not postponed. Executed." This discipline is what separates hopeful founders from disciplined operators.</p>
+            </div>
+        </div>
+        <!-- PRESENTER NOTES: Turn vulnerability into confidence. By openly stating risks and committing to kill criteria, you show discipline and maturity. This builds trust more than hiding risks ever could. The quote at the end should be delivered with conviction — this is your operational philosophy. -->
+    </div>
+
+    <!-- Slide 8: Contact -->
+    <div class="slide contact-slide" id="slide-7">
+        <div class="contact-content fade-in">
+            <h2 class="contact-title">Your Signal is Written</h2>
+            <p class="contact-tagline">The question is: are you ready to read it?</p>
+            <div class="urgency-box fade-in delay-1">
+                <p><strong>The Window:</strong> We're entering a blue ocean with first-mover advantage in auditable BaZi fusion. The market is growing at 20.2% CAGR. The framework-curious segment is underserved and high-value. This opportunity won't wait — and neither should you.</p>
+            </div>
+            <div class="contact-info fade-in delay-2">
+                <div class="contact-item">
+                    <h4>Email</h4>
+                    <p>founders@bazodiac.space</p>
+                </div>
+                <div class="contact-item">
+                    <h4>Website</h4>
+                    <p>bazodiac.space</p>
+                </div>
+                <div class="contact-item">
+                    <h4>Investor Access</h4>
+                    <p>insight.bazodiac.space</p>
+                </div>
+            </div>
+            <p class="fade-in delay-3" style="margin-top: 40px; font-size: 20px; color: var(--quantum-gold); font-weight: 600;">
+                Seed Round 2026 • €1.5M Pre-Money Valuation • Limited Allocation Available
+            </p>
+        </div>
+        <!-- PRESENTER NOTES: Create urgency and exclusivity. The "Window" box frames this as a time-sensitive opportunity. The final line adds scarcity ("Limited Allocation Available"). End with the tagline as a call to action — it's poetic and memorable. Leave silence after the final line for impact. -->
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 8;
+
+        function goToSlide(index) {
+            currentSlide = index;
+            document.getElementById(`slide-${index}`).scrollIntoView({ behavior: 'smooth' });
+            updateNavDots();
+        }
+
+        function updateNavDots() {
+            const dots = document.querySelectorAll('.nav-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.remove('active');
+                if (index === currentSlide) {
+                    dot.classList.add('active');
+                }
+            });
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                e.preventDefault();
+                if (currentSlide < totalSlides - 1) {
+                    goToSlide(currentSlide + 1);
+                }
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                if (currentSlide > 0) {
+                    goToSlide(currentSlide - 1);
+                }
+            }
+        });
+
+        // Scroll detection
+        const slides = document.querySelectorAll('.slide');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const slideId = entry.target.id;
+                    const slideIndex = parseInt(slideId.split('-')[1]);
+                    currentSlide = slideIndex;
+                    updateNavDots();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        slides.forEach(slide => observer.observe(slide));
+
+        // Initialize animations on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.fade-in');
+            animatedElements.forEach(el => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{
+  "completed_at": "2026-05-21T18:59:30Z",
+  "version": 2,
+  "company_name": "VSA Virtual Services and Applications",
+  "checklist_dismissed": false,
+  "checklist": [
+    {
+      "id": "pick_team",
+      "done": false
+    },
+    {
+      "id": "second_key",
+      "done": false
+    },
+    {
+      "id": "github_repo",
+      "done": false
+    },
+    {
+      "id": "github_star",
+      "done": false
+    },
+    {
+      "id": "discord",
+      "done": false
+    }
+  ],
+  "phase": "complete",
+  "form_answers": {
+    "company_name": "VSA Virtual Services and Applications",
+    "description": "B2B services for startups und mittelständische und Einzelunternehmen. Aktuelle Kernkompetenzen :1. Investoren Pitchdecks für angehende Startups in der Fundingphase. 2.Lokale Betriebe wie Restaurant, Hotels, Bars, Frisöre etc in google maps suchen, website nach kriterien des Potenzial bewerten und eine WEbsite bauen und dem unternehmen günstig anbieten",
+    "website_url": "https://agent-company-production-9243.up.railway.app/",
+    "scan_complete": true
+  }
+}
