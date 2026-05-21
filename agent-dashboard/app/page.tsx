@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { RiCpuLine, RiRobotLine, RiDatabase2Line, RiTaskLine, RiFlashlightLine, RiRefreshLine, RiPlayLine, RiStopLine, RiMessage3Line, RiBrainLine, RiBook2Line, RiDashboardLine, RiLightbulbLine } from '@remixicon/react';
 import IdeenManagement from './components/ideen/IdeenManagement';
+import GBrainSemanticGraph from './components/gbrain/GBrainSemanticGraph';
 
 // API Base URLs
 const AGENT_API_BASE_URL = 'http://localhost:8001/api';
@@ -52,7 +53,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<string>('');
   const [connectionStatus, setConnectionStatus] = useState<'connected' | 'disconnected' | 'connecting'>('connecting');
-  const [activeTab, setActiveTab] = useState<'overview' | 'dialogs' | 'thoughts' | 'knowledge'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'dialogs' | 'thoughts' | 'knowledge' | 'gbrain-graph'>('overview');
   const wsRef = useRef<WebSocket | null>(null);
 
   const fetchSystemStatus = async () => {
@@ -442,6 +443,17 @@ export default function Dashboard() {
                 <RiBook2Line className="w-4 h-4" />
                 Knowledge
               </button>
+              <button
+                onClick={() => setActiveTab('gbrain-graph')}
+                className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 ${
+                  activeTab === 'gbrain-graph'
+                    ? 'bg-primary text-black font-bold'
+                    : 'bg-surface border border-border text-text-secondary hover:border-primary'
+                }`}
+              >
+                <RiBrainLine className="w-4 h-4" />
+                GBrain Graph
+              </button>
             </div>
           </>
         )}
@@ -456,6 +468,7 @@ export default function Dashboard() {
           {activeTab === 'dialogs' && <DialogsTab API_BASE_URL={AGENT_API_BASE_URL} />}
           {activeTab === 'thoughts' && <ThoughtsTab API_BASE_URL={AGENT_API_BASE_URL} />}
           {activeTab === 'knowledge' && <KnowledgeTab API_BASE_URL={AGENT_API_BASE_URL} />}
+          {activeTab === 'gbrain-graph' && <GBrainSemanticGraph />}
         </>
       ) : (
         <IdeenManagement apiUrl={IDEEN_API_BASE_URL} />
