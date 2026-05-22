@@ -8,7 +8,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 
 // API Base URLs
 const AGENT_API_BASE_URL = 'http://localhost:8001/api';
-const IDEEN_API_BASE_URL = process.env.NEXT_PUBLIC_IDEEN_API_URL || 'http://localhost:8001/api';
+const IDEEN_API_BASE_URL = 'http://localhost:8001/api';
 
 interface SystemStatus {
   timestamp: string;

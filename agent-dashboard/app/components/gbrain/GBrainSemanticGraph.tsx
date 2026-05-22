@@ -27,23 +27,21 @@ function useDebounce(value: string, delay: number) {
   return debouncedValue;
 }
 
-interface GraphNodeMetadata {
-  [key: string]: string | number | boolean | null;
-}
-
 interface GraphNode {
   id: string;
   label: string;
-  source: string;
   type: string;
-  metadata: GraphNodeMetadata;
+  date: string;
+  phase: string;
+  data: any;
 }
 
 interface GraphEdge {
+  id: string;
   source: string;
   target: string;
-  weight: number;
-  similarity: number;
+  type: string;
+  animated: boolean;
 }
 
 interface GraphData {
@@ -57,11 +55,8 @@ export default function GBrainSemanticGraph() {
   const [graphData, setGraphData] = useState<GraphData>({ nodes: [], edges: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedSources, setSelectedSources] = useState<string[]>(['default', 'wuphf-memory', 'wuphf-wiki']);
-  const [similarityThreshold, setSimilarityThreshold] = useState(0.7);
-  const [maxNodes, setMaxNodes] = useState(100);
   const [searchQuery, setSearchQuery] = useState('');
-  
+
   const cyRef = useRef<Core | null>(null);
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
@@ -92,10 +87,9 @@ export default function GBrainSemanticGraph() {
     try {
       setLoading(true);
       setError(null);
-      const sourcesParam = selectedSources.join(',');
-      const response = await fetch(`${API_BASE_URL}/api/gbrain/semantic-graph?sources=${sourcesParam}&similarity_threshold=${similarityThreshold}&max_nodes=${maxNodes}`);
+      const response = await fetch(`${API_BASE_URL}/graph/full-graph`);
       const data = await response.json();
-      
+
       if (data.status === 'success') {
         setGraphData(data.graph);
       } else {
@@ -113,19 +107,14 @@ export default function GBrainSemanticGraph() {
     } finally {
       setLoading(false);
     }
-  }, [selectedSources, similarityThreshold, maxNodes]);
+  }, []);
 
   useEffect(() => {
     loadGraphData();
   }, [loadGraphData]);
 
   const getSourceColor = (source: string) => {
-    switch (source) {
-      case 'default': return '#6366f1'; // indigo
-      case 'wuphf-memory': return '#10b981'; // emerald
-      case 'wuphf-wiki': return '#f59e0b'; // amber
-      default: return '#6b7280'; // gray
-    }
+    return '#6366f1'; // indigo
   };
 
   if (loading) {
@@ -200,68 +189,19 @@ export default function GBrainSemanticGraph() {
       </div>
 
       {/* Controls */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        {/* Source Filter */}
-        <div className="bg-surface-light rounded-lg p-4">
-          <div className="flex items-center gap-2 mb-3">
+      <div className="bg-surface-light rounded-lg p-4 mb-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
             <RiFilter3Line className="w-4 h-4 text-primary" />
-            <span className="text-sm font-semibold">Sources</span>
+            <span className="text-sm font-semibold">Graph Controls</span>
           </div>
-          <div className="space-y-2">
-            {['default', 'wuphf-memory', 'wuphf-wiki'].map((source) => (
-              <label key={source} className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={selectedSources.includes(source)}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedSources([...selectedSources, source]);
-                    } else {
-                      setSelectedSources(selectedSources.filter(s => s !== source));
-                    }
-                  }}
-                  className="w-4 h-4 rounded border-border"
-                />
-                <span className="text-sm" style={{ color: getSourceColor(source) }}>
-                  {source}
-                </span>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        {/* Similarity Threshold */}
-        <div className="bg-surface-light rounded-lg p-4">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-sm font-semibold">Similarity Threshold</span>
-            <span className="text-primary font-mono text-sm">{similarityThreshold.toFixed(2)}</span>
-          </div>
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.1"
-            value={similarityThreshold}
-            onChange={(e) => setSimilarityThreshold(parseFloat(e.target.value))}
-            className="w-full"
-          />
-        </div>
-
-        {/* Max Nodes */}
-        <div className="bg-surface-light rounded-lg p-4">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-sm font-semibold">Max Nodes</span>
-            <span className="text-primary font-mono text-sm">{maxNodes}</span>
-          </div>
-          <input
-            type="range"
-            min="10"
-            max="500"
-            step="10"
-            value={maxNodes}
-            onChange={(e) => setMaxNodes(parseInt(e.target.value))}
-            className="w-full"
-          />
+          <button
+            onClick={loadGraphData}
+            className="px-4 py-2 bg-surface border border-border rounded-lg hover:border-primary transition-colors flex items-center gap-2"
+          >
+            <RiRefreshLine className="w-4 h-4" />
+            Refresh Graph
+          </button>
         </div>
       </div>
 
@@ -273,19 +213,19 @@ export default function GBrainSemanticGraph() {
           <CytoscapeComponent
             elements={[
               ...filtered.nodes.map(node => ({
-                data: { 
-                  id: node.id, 
-                  label: node.label, 
-                  source: node.source,
-                  sourceColor: getSourceColor(node.source)
+                data: {
+                  id: node.id,
+                  label: node.label,
+                  sourceColor: getSourceColor(node.type)
                 }
               })),
               ...filtered.edges.map((edge, index) => ({
-                data: { 
-                  source: edge.source, 
-                  target: edge.target, 
-                  weight: edge.weight,
-                  similarity: edge.similarity
+                data: {
+                  id: edge.id,
+                  source: edge.source,
+                  target: edge.target,
+                  weight: 1,
+                  similarity: 1
                 }
               }))
             ]}
@@ -315,7 +255,7 @@ export default function GBrainSemanticGraph() {
               {
                 selector: 'edge',
                 style: {
-                  'width': 'data(weight) * 2',
+                  'width': 2,
                   'line-color': '#666',
                   'target-arrow-color': '#666',
                   'target-arrow-shape': 'triangle',
