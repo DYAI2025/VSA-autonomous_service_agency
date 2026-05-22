@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import { RiCpuLine, RiRobotLine, RiDatabase2Line, RiTaskLine, RiFlashlightLine, RiRefreshLine, RiPlayLine, RiStopLine, RiMessage3Line, RiBrainLine, RiBook2Line, RiDashboardLine, RiLightbulbLine } from '@remixicon/react';
 import IdeenManagement from './components/ideen/IdeenManagement';
 import GBrainSemanticGraph from './components/gbrain/GBrainSemanticGraph';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // API Base URLs
 const AGENT_API_BASE_URL = 'http://localhost:8001/api';
@@ -468,7 +469,11 @@ export default function Dashboard() {
           {activeTab === 'dialogs' && <DialogsTab API_BASE_URL={AGENT_API_BASE_URL} />}
           {activeTab === 'thoughts' && <ThoughtsTab API_BASE_URL={AGENT_API_BASE_URL} />}
           {activeTab === 'knowledge' && <KnowledgeTab API_BASE_URL={AGENT_API_BASE_URL} />}
-          {activeTab === 'gbrain-graph' && <GBrainSemanticGraph />}
+          {activeTab === 'gbrain-graph' && (
+            <ErrorBoundary fallback={<div className="p-6 text-center text-error">Graph component failed to load</div>}>
+              <GBrainSemanticGraph />
+            </ErrorBoundary>
+          )}
         </>
       ) : (
         <IdeenManagement apiUrl={IDEEN_API_BASE_URL} />
