@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef, useCallback } from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
-import cytoscape from 'cytoscape';
+import cytoscape, { Core } from 'cytoscape';
 import dagre from 'cytoscape-dagre';
 import fcose from 'cytoscape-fcose';
 import { RiBrainLine, RiRefreshLine, RiFilter3Line, RiSearchLine } from '@remixicon/react';
@@ -27,12 +27,16 @@ function useDebounce(value: string, delay: number) {
   return debouncedValue;
 }
 
+interface GraphNodeMetadata {
+  [key: string]: string | number | boolean | null;
+}
+
 interface GraphNode {
   id: string;
   label: string;
   source: string;
   type: string;
-  metadata: any;
+  metadata: GraphNodeMetadata;
 }
 
 interface GraphEdge {
@@ -58,7 +62,7 @@ export default function GBrainSemanticGraph() {
   const [maxNodes, setMaxNodes] = useState(100);
   const [searchQuery, setSearchQuery] = useState('');
   
-  const cyRef = useRef<any>(null);
+  const cyRef = useRef<Core | null>(null);
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
   // Filter graph data based on search query
