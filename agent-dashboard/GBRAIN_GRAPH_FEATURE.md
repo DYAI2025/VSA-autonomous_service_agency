@@ -76,6 +76,23 @@ The GBrain Semantic Graph is an interactive visualization feature integrated int
 - **Current State**: Placeholder implementation returning empty graph structure
 - **Planned Enhancement**: Actual embedding similarity calculation using NumPy/Scipy
 
+### Security Considerations
+
+#### Implemented Security Measures
+- **Input Validation**: Source names are validated against allowlist (default, wuphf-memory, wuphf-wiki)
+- **Path Validation**: GBrain CLI path is validated to prevent command injection attacks
+- **Rate Limiting**: API endpoint limited to 10 requests per minute per IP address to prevent abuse
+- **Error Boundaries**: Component wrapped in error boundary to prevent crashes from affecting dashboard
+- **Type Safety**: Proper TypeScript types prevent runtime type errors
+- **Hash-based Cache Keys**: MD5 hashing prevents cache key collisions
+
+#### Deployment Security Notes
+- Set `NEXT_PUBLIC_API_BASE_URL` environment variable for production deployments
+- Configure CORS origins appropriately for production environment (currently set to `*` for development)
+- Consider adding authentication for production deployment
+- Review and adjust rate limits based on expected traffic patterns
+- The simple in-memory rate limiter is suitable for single-instance deployments; consider Redis-based rate limiting for distributed deployments
+
 ### Frontend Components
 
 #### React Component
