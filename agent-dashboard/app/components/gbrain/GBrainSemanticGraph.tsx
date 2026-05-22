@@ -103,7 +103,13 @@ export default function GBrainSemanticGraph() {
       }
     } catch (err) {
       console.error('Error loading graph data:', err);
-      setError('Failed to connect to API server');
+      if (err instanceof TypeError && err.message.includes('fetch')) {
+        setError('Network error: Unable to reach API server. Please check your connection.');
+      } else if (err instanceof SyntaxError) {
+        setError('Data format error: Invalid response from server. Please try again.');
+      } else {
+        setError('An unexpected error occurred. Please refresh the page or try again later.');
+      }
     } finally {
       setLoading(false);
     }
